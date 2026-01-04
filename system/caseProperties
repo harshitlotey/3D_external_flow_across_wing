@@ -1,0 +1,106 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v2412                                 |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      caseProperties;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+initialConditions
+{
+    U           uniform (24.94 1.75 0);
+    p           uniform 0;
+    k           uniform 0.375;
+    epsilon       uniform 0.359368067812466;
+    omega       uniform 10.647942749999;
+    nut         calculated;
+}
+
+boundaryConditions
+{
+    wall1
+    {
+        category        wall;
+        type            noSlip;
+        patches         (wall1);
+        options
+        {
+            wallFunction    highReynolds;
+            motion          stationary;
+        }
+        values
+        {
+            $/initialConditions;
+        }
+    }
+
+    inlet1
+    {
+        category        inlet;
+        type            subSonic;
+        patches         (inlet1);
+        options
+        {
+            flowSpecification fixedVelocity;
+        }
+        values
+        {
+            $/initialConditions;
+        }
+    }
+
+    inlet2
+    {
+        category        inlet;
+        type            subSonic;
+        patches         (inlet2);
+        options
+        {
+            flowSpecification fixedVelocity;
+        }
+        values
+        {
+            $/initialConditions;
+        }
+    }
+    outlet1
+    {
+        category        outlet;
+        type            subSonic;
+        patches         (outlet1);
+        options
+        {
+            returnFlow      default;
+        }
+        values
+        {
+            $/initialConditions;
+        }
+    }
+
+    symmetry1
+    {
+        category        inlet;
+        type            subSonic;
+        patches         (symmetry1);
+        options
+        {
+            flowSpecification fixedVelocity;
+        }
+        values
+        {
+            $/initialConditions;
+        }
+    }
+}
+
+
+// ************************************************************************* //
