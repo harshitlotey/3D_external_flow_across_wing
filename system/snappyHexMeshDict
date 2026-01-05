@@ -51,12 +51,12 @@ FoamFile
         nCellsBetweenLevels 8;
         features
         (
-//          { file inlet1.eMesh; level 2;}
-//          { file inlet2.eMesh; level 2;}
+         { file inlet1.eMesh; level 0;}
+         { file inlet2.eMesh; level 0;}
 //          { file inlet3.eMesh; level 2;}
 //          { file inlet4.eMesh; level 2;}
 //          { file inlet5.eMesh; level 2;}
-//          { file outlet1.eMesh; level 2;}
+         { file outlet1.eMesh; level 0;}
 //          { file outlet2.eMesh; level 2;}
 //          { file outlet3.eMesh; level 2;}
 //          { file outlet4.eMesh; level 2;}
@@ -65,16 +65,16 @@ FoamFile
 //          { file wall2.eMesh; level 2;}
 //          { file wall3.eMesh; level 2;}
 //          { file wall4.eMesh; level 2;}
-//          { file wall5.eMesh; level 2;}
+         { file symmetry1.eMesh; level 0;}
         );
         refinementSurfaces
         {
-//          inlet1{ level (2 2); patchInfo{type patch;}}
-//          inlet2{ level (2 2); patchInfo{type patch;}}
+         inlet1{ level (0 0); patchInfo{type patch;}}
+         inlet2{ level (0 0); patchInfo{type patch;}}
 //          inlet3{ level (2 2); patchInfo{type patch;}}
 //          inlet4{ level (2 2); patchInfo{type patch;}}
 //          inlet5{ level (2 2); patchInfo{type patch;}}
-//          outlet1{ level (2 2); patchInfo{type patch;}}
+         outlet1{ level (0 0); patchInfo{type patch;}}
 //          outlet2{ level (2 2); patchInfo{type patch;}}
 //          outlet3{ level (2 2); patchInfo{type patch;}}
 //          outlet4{ level (2 2); patchInfo{type patch;}}
@@ -83,7 +83,7 @@ FoamFile
 //          wall2{ level (2 2); patchInfo{type wall;}}
 //          wall3{ level (2 2); patchInfo{type wall;}}
 //          wall4{ level (2 2); patchInfo{type wall;}}
-//          wall5{ level (2 2); patchInfo{type wall;}}
+         symmetry1{ level (0 0); patchInfo{type patch;}}
         }
         resolveFeatureAngle 15;
         refinementRegions
