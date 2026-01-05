@@ -1,5 +1,8 @@
 # External Flow Analysis of a Straight Rectangular Wing (Clark Y)
 
+> [!Note]
+> **Status:** The current mesh configuration results in an average $y^+$ of 22. While Lift ($C_l$) results are valid, this wall resolution leads to an over-prediction of Drag ($C_d$) when using the $k-\omega SST$ model. See **Section 4** for details.
+
 ## 1. Introduction
 This repository contains an OpenFOAM case study analyzing the external aerodynamic flow over a straight rectangular wing. The project utilizes the **Clark Y airfoil** profile to determine aerodynamic coefficients and validate results against theoretical predictions using **XFOIL** and **Prandtl’s Lifting-Line Theory**.
 
@@ -23,26 +26,16 @@ The "Body of Influence" is a straight rectangular wing generated via FreeCAD.
 
 ## 3. Case Setup & Pre-processing
 
-### Domain & Meshing
-The computational domain is a box surrounding the wing, modeled with a symmetry boundary condition on the middle parting plane to reduce computational cost.
-
-* **Software:** `snappyHexMesh` utility.
-* **Base Element Size:** $0.1 m$.
-* **Refinement:**
-    * Curvature captured at Level 5 ($15^{\circ}$ feature angle).
-    * Wake region refinement: Level 2.
-* **Boundary Layers:** 5 inflation layers with an expansion ratio of 1.2.
-* **Total Cells:** $\approx 2.59$ million cells.
-
-
 ### Numerical Model
-* **Solver Type:** Steady-state incompressible (implied `simpleFoam`).
-* **Turbulence Model:** $k-\omega SST$ with assumed $5\%$ turbulence intensity.
-* **Boundary Conditions:**
-    * **Inlet:** Constant velocity.
-    * **Outlet:** Constant pressure.
-    * **Wing Surface:** No-slip wall with wall functions for $k$, $\omega$, and $\nu_t$.
-    * **Symmetry:** Symmetry plane.
+* **Solver:** Steady-state RANS (`simpleFoam`).
+* **Turbulence:** $k-\omega SST$ model.
+* **Wall Treatment:** Wall functions for $k$, $\omega$, and $\nu_t$.
+
+### Mesh Statistics
+* **Type:** Hex-dominant mesh (`snappyHexMesh`).
+* **Cell Count:** $\approx 2.59$ million.
+* **Boundary Layer:** 5 inflation layers (Expansion ratio: 1.2).
+* **Wall Resolution:** Average $y^+ \approx 22$ (Buffer layer).
 
 ## 4. Results & Verification
 
@@ -54,16 +47,16 @@ The primary goal was to calculate Lift ($C_l$) and Drag ($C_d$) coefficients and
 | **Lift ($C_l$)** | **0.556** | **0.627** |
 | **Drag ($C_d$)** | **0.0409** | **0.03** |
 
-### Pressure Coefficient ($C_p$)
-The $C_p$ vs. $x/c$ plot demonstrates behavior consistent with XFOIL benchmarks, though the peak suction magnitude differs slightly due to mesh resolution limitations.
-
+### Data Analysis
+* **Lift:** The simulation aligns with theoretical expectations for a finite wing, confirming that the bulk pressure distribution is captured correctly.
+* **Drag:** The drag coefficient is higher than the theoretical baseline. This discrepancy is attributed to the average $y^+$ value of 22. The $k-\omega SST$ model typically requires $y^+ < 1$ to accurately resolve skin friction drag; operating in the buffer layer ($5 < y^+ < 30$) results in the observed over-prediction.
 
 ### Flow Visualization
 The simulation successfully captured wingtip vortices, illustrating the induced drag and downwash effects characteristic of finite wings.
 
 ## 5. Limitations
-* **Mesh Resolution:** The mesh was not refined enough to fully capture intense pressure gradients, leading to slight inaccuracies in $C_p$ minima.
-* **Domain Size:** The domain boundaries may still influence the flow due to computational resource constraints.
+* **Wall Resolution:** The current $y^+$ of 22 falls within the buffer layer. Future iterations will target $y^+ < 1$ to improve drag accuracy.
+* **Domain Size:** The wake region extends 12 chord lengths downstream; extending this would further isolate the outlet boundary.
 
 ## 6. How to Run
 *Prerequisites: OpenFOAM 2412 (ESI) or later (or equivalent fork), ParaView for post-processing.*
