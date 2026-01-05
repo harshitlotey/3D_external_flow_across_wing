@@ -16,7 +16,7 @@ FoamFile
 
     castellatedMesh true;
     snap            true;
-    addLayers       false;//true;
+    addLayers       true;//true;
 
     geometry
     {
@@ -48,7 +48,7 @@ FoamFile
         maxGlobalCells 80000000;
         minRefinementCells 0;
         maxLoadUnbalance 0.10;
-        nCellsBetweenLevels 3;
+        nCellsBetweenLevels 8;
         features
         (
 //          { file inlet1.eMesh; level 2;}
@@ -89,7 +89,7 @@ FoamFile
         refinementRegions
         {
             wake {mode inside; levels ((1e15 2));}
-            verticle {mode inside; levels ((1e15 2));}
+            vertical {mode inside; levels ((1e15 2));}
             buffer1 {mode inside; levels ((1e15 3));}
             buffer2 {mode inside; levels ((1e15 2));}
         }
@@ -101,9 +101,9 @@ FoamFile
     {
         nSmoothPatch 3;
         tolerance 4.0;
-        nSolveIter 20;
-        nRelaxIter 20;
-        nFeatureSnapIter 20;
+        nSolveIter 200;
+        nRelaxIter 200;
+        nFeatureSnapIter 200;
         implicitFeatureSnap true;
         explicitFeatureSnap false;
         multiRegionFeatureSnap true;

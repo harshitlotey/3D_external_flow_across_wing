@@ -66,7 +66,7 @@ The simulation successfully captured wingtip vortices, illustrating the induced 
 * **Domain Size:** The domain boundaries may still influence the flow due to computational resource constraints.
 
 ## 6. How to Run
-*Prerequisites: OpenFOAM 12 (Foundation) or later (or equivalent fork), ParaView for post-processing.*
+*Prerequisites: OpenFOAM 2412 (ESI) or later (or equivalent fork), ParaView for post-processing.*
 
 1.  **Clone the repository:**
     ```bash
