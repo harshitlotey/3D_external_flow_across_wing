@@ -1,0 +1,26 @@
+# --- Time Directories (Results) ---
+# Ignore all directories starting with a number (results)
+[0-9]*/
+# But explicitly keep the '0' directory (Initial Conditions)
+!/0/
+
+# --- Parallel Processing ---
+# Ignore processor directories (e.g., processor0, processor1...)
+processor*/
+
+# ignore raw report folder
+report/
+# --- Mesh Files (Heavy Geometry) ---
+polyMesh/
+
+# # --- Post-Processing & Logs ---
+postProcessing/
+logs/
+log.*
+*.log
+
+# ignore the personal scripts and data logs
+*.sh
+*.py
+*.dat
+*.csv

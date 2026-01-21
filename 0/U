@@ -34,11 +34,11 @@ boundaryField
     }
     outlet1
     {
-        type            freestreamVelocity;
-        // inletValue      uniform ( 24.94 1.75 0 );
-        freestreamValue           uniform ( 24.94 1.75 0 );
+        type            inletOutlet;
+        inletValue      uniform (24.94 1.75 0); // Only used if flow reverses
+        value           uniform (24.94 1.75 0); // Initial value
     }
-    symmetry1
+    symmetryPlane
     {
         type            symmetry;
     }
@@ -46,6 +46,12 @@ boundaryField
     {
         type            noSlip;
         // value           uniform ( 0 0 0 );
+    }
+    defaultBoundary
+    {
+        type            inletOutlet;
+        inletValue      uniform (24.94 1.75 0); // MATCH your internalField value!
+        value           uniform (24.94 1.75 0); // MATCH your internalField value!
     }
 }
 

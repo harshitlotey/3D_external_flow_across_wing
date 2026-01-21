@@ -16,18 +16,18 @@ FoamFile
 
 scale 1;
 
-x_min -3.1;
-x_max 3.1;
+x_min -1.6;
+x_max 5.1;
 
 y_min -2.1;
 y_max 2.1;
 
-z_min -3.1;
-z_max 0.1;
+z_min -1.6;
+z_max 0;
 
-n_x 60;
-n_y 40;
-n_z 30;
+n_x 134;
+n_y 84;
+n_z 32;
 
 vertices
 (
@@ -45,18 +45,29 @@ blocks ( hex (0 1 2 3 4 5 6 7) ($n_x $n_y $n_z) simpleGrading (1 1 1) );
 
 edges ( );
 
-boundary (
+boundary
+(
+    // The top face (Z=0) MUST be symmetry
+    symmetryPlane
+    {
+        type symmetry; 
+        faces
+        (
+            (4 5 6 7) 
+        );
+    }
+
+    // The other faces can remain generic patches
     defaultBoundary
     {
         type patch;
         faces
         (
-            (1 5 4 0)
-            (0 4 7 3)
-            (2 6 5 1)
-            (0 3 2 1)
-            (4 5 6 7)
-            (3 7 6 2)
+            (1 5 4 0) // y-min (Bottom)
+            (0 4 7 3) // x-min (Inlet side)
+            (2 6 5 1) // x-max (Outlet side)
+            (0 3 2 1) // z-min (Back)
+            (3 7 6 2) // y-max (Top)
         );
     }
 );

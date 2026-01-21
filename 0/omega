@@ -40,7 +40,7 @@ boundaryField
         inletValue      uniform 26.6198568749975;
         value           uniform 13.3099284374987;
     }
-    symmetry1
+    symmetryPlane
     {
         type            symmetry;
     }
@@ -48,6 +48,12 @@ boundaryField
     {
         type            omegaWallFunction;
         value           uniform 13.3099284374987;
+    }
+    defaultBoundary
+    {
+        type            inletOutlet;
+        inletValue      $internalField;
+        value           $internalField;
     }
 }
 

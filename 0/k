@@ -40,14 +40,20 @@ boundaryField
         inletValue      uniform 2.34375;
         value           uniform 2.34375;
     }
-    symmetry1
+    symmetryPlane
     {
         type            symmetry;
     }
     wall1
     {
-        type            kqRWallFunction;
-        value           uniform 2.34375;
+        type            fixedValue;
+        value           uniform 1e-10;
+    }
+    defaultBoundary
+    {
+        type            inletOutlet;
+        inletValue      $internalField; // Auto-grabs value from top of file
+        value           $internalField;
     }
 }
 

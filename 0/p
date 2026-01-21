@@ -35,13 +35,18 @@ boundaryField
         type            fixedValue;
         value           uniform 0;
     }
-    symmetry1
+    symmetryPlane
     {
         type            symmetry;
     }
     wall1
     {
         type            zeroGradient;
+    }
+    defaultBoundary
+    {
+        type            fixedValue;
+        value           uniform 0;
     }
 }
 

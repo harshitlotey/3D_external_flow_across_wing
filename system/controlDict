@@ -14,104 +14,71 @@ FoamFile
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-application     simpleFoam;
+application     foamRun;
+solver          incompressibleFluid;
 startFrom       latestTime;
 startTime       0;
 stopAt          endTime;
-endTime         3000;//
+endTime         3000;
 deltaT          1;
 writeControl    timeStep;
-writeInterval   50;//
-purgeWrite      0;
-writeFormat     ascii;
-writePrecision  6;
-writeCompression off;
+writeInterval   10;//
+purgeWrite      3;
+writeFormat     binary;
+writePrecision  10;
+writeCompression on;
 timeFormat      general;
 timePrecision   6;
 runTimeModifiable true;
 functions
 {
-   
-forceCoeffs1
-{
-    // Mandatory entries
-    type            forceCoeffs;
-    libs            ("libforces.so");
-    patches         (wall1);
 
-
-    // Optional entries
-
-    // Field names
-    p               p;
-    U               U;
-    rho             rhoInf;
-    rhoInf          1.225;
-
-    // Reference pressure [Pa]
-    pRef            0;
-
-    // Include porosity effects?
-    porosity        no;
-
-    // Store and write volume field representations of forces and moments
-    // writeFields     yes;
-
-    // Centre of rotation for moment calculations
-    CofR            (0.05 0 0.0);
-
-    // Lift direction
-    liftDir         (-0.0697564737441253 0.997564050259824 0);
-
-    // Drag direction
-    dragDir         (0.997564050259824 0.0697564737441253 0);
-
-    // Pitch axis
-    pitchAxis       (0 0 1);
-
-    // Freestream velocity magnitude [m/s]
-    magUInf         25;
-
-    // Reference length [m]
-    lRef            0.25;
-
-    // Reference area [m2]
-    Aref            0.1875;
-
-    // Spatial data binning
-    // - extents given by the bounds of the input geometry
-    binData
+residuals
     {
-        nBin        20;
-        direction   (1 0 0);
-        cumulative  yes;
+        type            residuals;
+        libs            ("libutilityFunctionObjects.so");
+        writeControl    timeStep;
+        writeInterval   1;
+        fields          (p U k omega); 
     }
-}
 
-forces
-{
-    type            forces;
+yPlus
+    {
+        type            yPlus;
+        libs            ("libfieldFunctionObjects.so");
+        executeControl  timeStep;
+        executeInterval 50;
+        writeControl    writeTime;
+        log             true;
+    }
 
-    libs            (forces);
+forceCoeffs1
+    {
+        // 1. Mandatory definitions
+        type            forceCoeffs;
+        libs            ("libforces.so");
+        
+        // 2. Output control
+        writeControl    timeStep;
+        writeInterval   1;
+        log             yes;
+        
+        patches     (wall1); // Names of patches on which to calculate forces
 
-    writeControl    timeStep;
-    timeInterval    1;
+        rho         rhoInf;    // Tells OpenFOAM: "Don't look for a rho field, use the value below"
+        rhoInf      1.225;     // The constant density value to multiply P by
 
-    log             yes;
+        magUInf     25;      // Far field velocity magnitude; e.g., 20 m/s
+        lRef        0.25;         // Reference length scale for moment calculations;
+                                // e.g., 1 m
+        Aref        0.1875;         // Reference area; e.g., 1 m^2
 
-    patches         (wall1);
-    p               p;
-    U               U;
-    rho             rhoInf;      // Indicates incompressible
-    rhoInf          1.225;           // Required when rho = rhoInf
-    pRef            0;
-    liftDir         (-0.0697564737441253 0.997564050259824 0);
-    dragDir         (0.997564050259824 0.0697564737441253 0);
-    CofR            (0.05 0 0.0);  // Axle midpoint on ground
-    pitchAxis       (0 0 1);
-    magUInf         25;
-    
-}
+        CofR        (0.5 0 0);         // Centre of rotation; e.g., (0 0 0)
+
+        liftDir     (-0.0697564737441253 0.997564050259824 0);      // Direction of lift force; e.g., (0 0 1)
+        dragDir     (0.997564050259824 0.0697564737441253 0);      // Direction of drag force; e.g., (1 0 0)
+        pitchAxis   (0 0 1);    // Pitch axis; e.g., (0 1 0)
+    }
 
 }
 
