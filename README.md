@@ -75,7 +75,7 @@ In conclusion, the OpenFOAM simulation successfully captures the fundamental aer
 
 ## 6. How to Run
 
-**Prerequisites:** OpenFOAM (v2412 or equivalent), MPI, ParaView.
+**Prerequisites:** OpenFOAM (v11 (Foundation) or equivalent), MPI, ParaView.
 
 1.  **Clone the repository:**
     ```bash
