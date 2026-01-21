@@ -50,8 +50,8 @@ boundaryField
     defaultBoundary
     {
         type            inletOutlet;
-        inletValue      uniform (24.94 1.75 0); // MATCH your internalField value!
-        value           uniform (24.94 1.75 0); // MATCH your internalField value!
+        inletValue      uniform (24.94 1.75 0);
+        value           uniform (24.94 1.75 0);
     }
 }
 
